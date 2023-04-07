@@ -43,7 +43,7 @@ public class Usuarios {
         this.Pass_Usuario = Pass_Usuario;
     }
 
-    public int getNivel_Acceso(Object value) {
+    public int getNivel_Acceso() {
         return Nivel_Acceso;
     }
 

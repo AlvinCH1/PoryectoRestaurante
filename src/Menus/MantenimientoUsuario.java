@@ -12,6 +12,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -387,6 +389,18 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
 
     private void txtLoginKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoginKeyReleased
         // TODO add your handling code here:
+        File arch = new File("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+        if (!arch.exists())
+        {
+            try
+            {
+                arch.createNewFile();
+            } catch (IOException ex)
+            {
+                JOptionPane.showMessageDialog(null, "Error de archivo");
+            }
+        }
+
         txtEstado.setText("");
         btnGuardar.setEnabled(true);
         btnEliminar.setEnabled(false);
@@ -396,59 +410,33 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         txtApellidos.setText("");
         txtCorreo.setText("");
         spnUsuarios.setValue(0);
-        
-        List<Usuarios> ListaUsuarios = new ArrayList<>();
-        try{
-            FileReader reader = new FileReader("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
-            BufferedReader br = new BufferedReader(reader);
-            
-            String linea;   
-            while((linea = br.readLine())!=null){
-                String[] datos = linea.split("; ");
-                Usuarios usuario = new Usuarios();
-                usuario.setLogin_Usuario(datos[0]);
-                usuario.setPass_Usuario(datos[1]);
-                usuario.setNivel_Acceso(Integer.parseInt(datos[2]));
-                usuario.setNombre_Usuario(datos[3]);
-                usuario.setApllido_Usuario(datos[4]);
-                usuario.setCorreo_Usuario(datos[5]);
-                ListaUsuarios.add(usuario);
-            }
-            
-            br.close();
-            reader.close();;
-            
-            for(Usuarios usuario: ListaUsuarios){
-                if(txtLogin.getText().equals(usuario.getLogin_Usuario())){
-                    pass.setText(usuario.getPass_Usuario());
-                    spnUsuarios.setValue((usuario.getNivel_Acceso(linea)));
-                    txtNombres.setText(usuario.getNombre_Usuario());
-                    txtApellidos.setText(usuario.getApllido_Usuario());
-                    txtCorreo.setText(usuario.getCorreo_Usuario());
-                    
-                    btnGuardar.setEnabled(false);
-                    btnEliminar.setEnabled(true);
-                    btnModificar.setEnabled(true);
-                    pass.setText("Este ya existe");
-                    
-                    
-                }
-            }
-            
-        }catch(FileNotFoundException e1){
-            
-        }catch(IOException ex){
-            
-        }
 
+        List<Usuarios> ListaUsuarios = obtenerListaUsuarios();
+
+        for (Usuarios usuario : ListaUsuarios)
+        {
+            if (txtLogin.getText().equals(usuario.getLogin_Usuario()))
+            {
+                pass.setText(usuario.getPass_Usuario());
+                spnUsuarios.setValue(usuario.getNivel_Acceso());
+                txtNombres.setText(usuario.getNombre_Usuario());
+                txtApellidos.setText(usuario.getApllido_Usuario());
+                txtCorreo.setText(usuario.getCorreo_Usuario());
+
+                btnGuardar.setEnabled(false);
+                btnEliminar.setEnabled(true);
+                btnModificar.setEnabled(true);
+                txtEstado.setText("Este Usuario ya existe");
+                break;
+            }else{
+                txtEstado.setText("Este Usuario no Existe");
+            }
+        }
     }//GEN-LAST:event_txtLoginKeyReleased
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        JTextField[] campos ={txtLogin, pass, txtNombres, txtApellidos, txtCorreo};
-        if(validarCampos(campos)){
-            
-        }
+        modificarDatos();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
@@ -562,7 +550,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
                 {
                     bw.write(p1.getLogin_Usuario() + "; "
                             + p1.getPass_Usuario() + "; "
-                            + String.valueOf(p1.getNivel_Acceso(arch)) + "; "
+                            + String.valueOf(p1.getNivel_Acceso()) + "; "
                             + p1.getNombre_Usuario() + "; "
                             + p1.getApllido_Usuario() + "; "
                             + p1.getCorreo_Usuario() + "\n");
@@ -601,4 +589,110 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         }
         return false;
     }
+    
+    public static List<Usuarios> obtenerListaUsuarios() {
+        List<Usuarios> listaUsuarios = new ArrayList<>();
+        try
+        {
+            FileReader reader = new FileReader("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+            BufferedReader br = new BufferedReader(reader);
+
+            String linea;
+            while ((linea = br.readLine()) != null)
+            {
+                String[] datos = linea.split("; ");
+                Usuarios usuario = new Usuarios();
+                usuario.setLogin_Usuario(datos[0]);
+                usuario.setPass_Usuario(datos[1]);
+                usuario.setNivel_Acceso(Integer.parseInt(datos[2].trim()));
+                usuario.setNombre_Usuario(datos[3]);
+                usuario.setApllido_Usuario(datos[4]);
+                usuario.setCorreo_Usuario(datos[5]);
+                listaUsuarios.add(usuario);
+            }
+
+            br.close();
+            reader.close();
+        } catch (FileNotFoundException ex){
+            JOptionPane.showMessageDialog(null, "Archivo No Encontrado");
+            ex.printStackTrace();
+        } catch (IOException ex){
+            JOptionPane.showMessageDialog(null, "Error de Archvo");
+            ex.printStackTrace();
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Error");
+            ex.printStackTrace();
+        }
+        return listaUsuarios;
+    }
+    
+    public void modificarDatos(){
+        JTextField[] campos ={txtLogin, pass, txtNombres, txtApellidos, txtCorreo};
+        if (validarCampos(campos)){
+                   // Obtener datos de los campos
+        
+        String login = txtLogin.getText();
+        String loginAnterior = login;
+        String pass = this.pass.getText();
+        String nombres = txtNombres.getText();
+        String apellidos = txtApellidos.getText();
+        String correo = txtCorreo.getText();
+        int nivelAcceso = (int) spnUsuarios.getValue();
+
+        // Crear objeto Usuarios con los datos modificados
+        Usuarios usuarioModificado = new Usuarios();
+        usuarioModificado.setLogin_Usuario(login);
+        usuarioModificado.setPass_Usuario(pass);
+        usuarioModificado.setNivel_Acceso(nivelAcceso);
+        usuarioModificado.setNombre_Usuario(nombres);
+        usuarioModificado.setApllido_Usuario(apellidos);
+        usuarioModificado.setCorreo_Usuario(correo);
+
+        // Obtener la lista de usuarios
+        List<Usuarios> listaUsuarios = obtenerListaUsuarios();
+
+        // Modificar el usuario correspondiente en la lista
+        for (int i = 0; i < listaUsuarios.size(); i++)
+        {
+            Usuarios usuario = listaUsuarios.get(i);
+            if (usuario.getLogin_Usuario().equals(loginAnterior))
+            {
+                listaUsuarios.set(i, usuarioModificado);
+                break;
+            }
+        }
+
+        // Guardar la lista de usuarios modificada en el archivo
+        try
+        {
+            FileWriter writer = new FileWriter("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+            for (Usuarios usuario : listaUsuarios)
+            {
+                writer.write(usuario.getLogin_Usuario() + "; " + usuario.getPass_Usuario() + "; " + usuario.getNivel_Acceso() + "; "
+                        + usuario.getNombre_Usuario() + "; " + usuario.getApllido_Usuario() + "; " + usuario.getCorreo_Usuario() + "\n");
+            }
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Usuario modificado correctamente.");
+        } catch (IOException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error al modificar usuario.");
+            ex.printStackTrace();
+        }
+        }else{
+            JOptionPane.showMessageDialog(null, "Llenar todos los campos obligatorios");
+        }
+        
+        txtLogin.setText("");
+        txtEstado.setText("");
+        btnGuardar.setEnabled(true);
+        btnEliminar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        pass.setText("");
+        txtNombres.setText("");
+        txtApellidos.setText("");
+        txtCorreo.setText("");
+        spnUsuarios.setValue(0);
+        
+    }
+    
 }
