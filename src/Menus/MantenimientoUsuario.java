@@ -416,7 +416,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
             for(Usuarios usuario: ListaUsuarios){
                 if(txtLogin.getText().equals(usuario.getLogin_Usuario())){
                     pass.setText(usuario.getPass_Usuario());
-                    spnUsuarios.setValue(Integer.valueOf(usuario.getNivel_Acceso(linea)));
+                    spnUsuarios.setValue((usuario.getNivel_Acceso(linea)));
                     txtNombres.setText(usuario.getNombre_Usuario());
                     txtApellidos.setText(usuario.getApllido_Usuario());
                     txtCorreo.setText(usuario.getCorreo_Usuario());
