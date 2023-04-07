@@ -445,7 +445,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        
+        JTextField[] campos ={txtLogin, pass, txtNombres, txtApellidos, txtCorreo};
     }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
