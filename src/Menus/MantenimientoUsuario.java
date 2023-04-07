@@ -189,6 +189,11 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         btnModificar.setBackground(new java.awt.Color(255, 153, 0));
         btnModificar.setForeground(new java.awt.Color(255, 255, 255));
         btnModificar.setText("Modoficar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setBackground(new java.awt.Color(255, 0, 0));
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
@@ -397,7 +402,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
             FileReader reader = new FileReader("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
             BufferedReader br = new BufferedReader(reader);
             
-            String linea; 
+            String linea;   
             while((linea = br.readLine())!=null){
                 String[] datos = linea.split("; ");
                 Usuarios usuario = new Usuarios();
@@ -420,6 +425,13 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
                     txtNombres.setText(usuario.getNombre_Usuario());
                     txtApellidos.setText(usuario.getApllido_Usuario());
                     txtCorreo.setText(usuario.getCorreo_Usuario());
+                    
+                    btnGuardar.setEnabled(false);
+                    btnEliminar.setEnabled(true);
+                    btnModificar.setEnabled(true);
+                    pass.setText("Este ya existe");
+                    
+                    
                 }
             }
             
@@ -430,6 +442,11 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_txtLoginKeyReleased
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnModificarActionPerformed
 
     /**
      * @param args the command line arguments
