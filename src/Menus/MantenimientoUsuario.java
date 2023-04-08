@@ -580,12 +580,14 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
                     spnUsuarios.setValue(0);
                 } catch (FileNotFoundException ex)
                 {
-                    JOptionPane.showMessageDialog(null, "Error Archivo no encontrado");
+                  ex.printStackTrace();
+                  JOptionPane.showMessageDialog(null, "Error Archivo no encontrado");
                 }
 
             } catch (IOException ex)
             {
                 JOptionPane.showMessageDialog(null, "Error de archivo");
+                ex.printStackTrace();
             }
             
             JOptionPane.showMessageDialog(null, "Usuario Guardado correctamente.");
@@ -642,6 +644,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error");
             ex.printStackTrace();
         } catch(ArrayIndexOutOfBoundsException ex){
+            ex.printStackTrace();
              eliminarLineaEnBlanco("Usuarios.txt");
             JOptionPane.showMessageDialog(null, "Error, su archivo tenia una linea en blanco.\nEsto se  ha sido solucionado ");
         }
@@ -751,6 +754,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error al eliminar usuario.");
             ex.printStackTrace();
         }
+        
         txtLogin.setText("");
         txtEstado.setText("");
         btnGuardar.setEnabled(true);
@@ -764,6 +768,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         
     }
     
+    //Metodo Para Eliminar
     public static void eliminarLineaEnBlanco(String rutaArchivo) {
         try
         {
