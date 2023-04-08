@@ -1,3 +1,2 @@
 ImDrake; 12345; 0; Carlos Saul ; Padilla Aquino; saul0221@gmail.com
-Trujillo; 12345; 1; Rafael Leonidas; Trujillo; eltruji123@gmail.com
 Hitler; 12345; 1; Adolfo; Hitler; nazi1234@gmail.com
