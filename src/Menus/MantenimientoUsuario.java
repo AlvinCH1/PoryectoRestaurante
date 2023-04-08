@@ -395,7 +395,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
 
     private void txtLoginKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoginKeyReleased
         // TODO add your handling code here:
-        File arch = new File("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+        File arch = new File("Usuarios.txt");
         if (!arch.exists())
         {
             try
@@ -544,7 +544,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         JTextField[] campos ={txtLogin, pass, txtNombres, txtApellidos, txtCorreo};
         if (validarCampos(campos))
         {
-            File arch = new File("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+            File arch = new File("Usuarios.txt");
 
             try
             {
@@ -613,7 +613,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         List<Usuarios> listaUsuarios = new ArrayList<>();
         try
         {
-            FileReader reader = new FileReader("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+            FileReader reader = new FileReader("Usuarios.txt");
             BufferedReader br = new BufferedReader(reader);
 
             String linea;
@@ -642,7 +642,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Error");
             ex.printStackTrace();
         } catch(ArrayIndexOutOfBoundsException ex){
-             eliminarLineaEnBlanco("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+             eliminarLineaEnBlanco("Usuarios.txt");
             JOptionPane.showMessageDialog(null, "Error, su archivo tenia una linea en blanco.\nEsto se  ha sido solucionado ");
         }
         return listaUsuarios;
@@ -687,7 +687,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         // Guardar la lista de usuarios modificada en el archivo
         try
         {
-            FileWriter writer = new FileWriter("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+            FileWriter writer = new FileWriter("Usuarios.txt");
             for (Usuarios usuario : listaUsuarios)
             {
                 writer.write(usuario.getLogin_Usuario() + "; " + usuario.getPass_Usuario() + "; " + usuario.getNivel_Acceso() + "; "
@@ -738,7 +738,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         // Guardar la lista de usuarios modificada en el archivo
         try
         {
-            FileWriter writer = new FileWriter("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+            FileWriter writer = new FileWriter("Usuarios.txt");
             for (Usuarios usuario : listaUsuarios)
             {
                 writer.write(usuario.getLogin_Usuario() + "; " + usuario.getPass_Usuario() + "; " + usuario.getNivel_Acceso() + "; "
