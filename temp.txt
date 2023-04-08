@@ -1,0 +1,6 @@
+El Nano; 12345; 1; Magic; Alonso; elnanoesungigante@gmail.com
+El Goat; 123; 0; El Mejor deTtodos; Messi; messirve123@gmail.com
+Ismael; 111; 1; Ismael Fidencio; Colon Martinez; ismael111@gmail.com
+Mamola; 123; 1; Eliana Marisa; Ventura Hiraldo; mamolina@gmail.com
+Johan; 12345; 1; Johan Daniel; Ventura Hiraldo; johan123@gmail.com
+Drake; 02042002; 1; Carlos Saul; Padilla Aquino; 1234@gmail.com

@@ -10,10 +10,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List; 
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -200,6 +201,11 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         btnEliminar.setBackground(new java.awt.Color(255, 0, 0));
         btnEliminar.setForeground(new java.awt.Color(255, 255, 255));
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Lucida Sans", 1, 18)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(255, 255, 255));
@@ -412,7 +418,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         spnUsuarios.setValue(0);
 
         List<Usuarios> ListaUsuarios = obtenerListaUsuarios();
-
+     
         for (Usuarios usuario : ListaUsuarios)
         {
             if (txtLogin.getText().equals(usuario.getLogin_Usuario()))
@@ -428,9 +434,14 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
                 btnModificar.setEnabled(true);
                 txtEstado.setText("Este Usuario ya existe");
                 break;
-            }else{
-                txtEstado.setText("Este Usuario no Existe");
             }
+            
+            if(("".equals(txtLogin.getText()))){
+                txtEstado.setText("");
+            }else{
+                txtEstado.setText("Este Usuario no existe");
+            }
+            
         }
     }//GEN-LAST:event_txtLoginKeyReleased
 
@@ -438,6 +449,11 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         // TODO add your handling code here:
         modificarDatos();
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        eliminarDatos();
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -571,10 +587,13 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
             {
                 JOptionPane.showMessageDialog(null, "Error de archivo");
             }
+            
+            JOptionPane.showMessageDialog(null, "Usuario Guardado correctamente.");
         } else
         {
             JOptionPane.showMessageDialog(null, "Llenar todos los campos obligatorios");
         }
+        
 
     }
     
@@ -622,6 +641,9 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         } catch (NumberFormatException ex){
             JOptionPane.showMessageDialog(null, "Error");
             ex.printStackTrace();
+        } catch(ArrayIndexOutOfBoundsException ex){
+             eliminarLineaEnBlanco("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+            JOptionPane.showMessageDialog(null, "Error, su archivo tenia una linea en blanco.\nEsto se  ha sido solucionado ");
         }
         return listaUsuarios;
     }
@@ -695,4 +717,69 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         
     }
     
+    public void eliminarDatos(){
+        // Obtener el login del usuario que se desea eliminar
+        String login = txtLogin.getText();
+
+        // Obtener la lista de usuarios
+        List<Usuarios> listaUsuarios = obtenerListaUsuarios();
+
+        // Buscar el usuario correspondiente y eliminarlo
+        for (int i = 0; i < listaUsuarios.size(); i++)
+        {
+            Usuarios usuario = listaUsuarios.get(i);
+            if (usuario.getLogin_Usuario().equals(login))
+            {
+                listaUsuarios.remove(i);
+                break;
+            }
+        }
+
+        // Guardar la lista de usuarios modificada en el archivo
+        try
+        {
+            FileWriter writer = new FileWriter("C:\\Users\\drake\\OneDrive\\Escritorio\\Proyecto Restaurante\\Usuarios.txt");
+            for (Usuarios usuario : listaUsuarios)
+            {
+                writer.write(usuario.getLogin_Usuario() + "; " + usuario.getPass_Usuario() + "; " + usuario.getNivel_Acceso() + "; "
+                        + usuario.getNombre_Usuario() + "; " + usuario.getApllido_Usuario() + "; " + usuario.getCorreo_Usuario() + "\n");
+            }
+            writer.close();
+            JOptionPane.showMessageDialog(null, "Usuario eliminado correctamente.");
+        } catch (IOException ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error al eliminar usuario.");
+            ex.printStackTrace();
+        }
+        txtLogin.setText("");
+        txtEstado.setText("");
+        btnGuardar.setEnabled(true);
+        btnEliminar.setEnabled(false);
+        btnModificar.setEnabled(false);
+        pass.setText("");
+        txtNombres.setText("");
+        txtApellidos.setText("");
+        txtCorreo.setText("");
+        spnUsuarios.setValue(0);
+        
+    }
+    
+    public static void eliminarLineaEnBlanco(String rutaArchivo) {
+        try
+        {
+            // Leer el contenido del archivo
+            List<String> lineas = Files.readAllLines(Paths.get(rutaArchivo));
+
+            // Eliminar las líneas en blanco
+            lineas.removeIf(linea -> linea.trim().isEmpty());
+
+            // Escribir el contenido actualizado en el archivo
+            Files.write(Paths.get(rutaArchivo), lineas, StandardCharsets.UTF_8);
+
+        } catch (IOException ex)
+        {
+            ex.printStackTrace();
+        }
+    }
+
 }
