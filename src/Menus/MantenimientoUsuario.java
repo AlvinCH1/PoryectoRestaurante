@@ -616,7 +616,7 @@ public class MantenimientoUsuario extends javax.swing.JFrame {
         try
         {
             FileReader reader = new FileReader("Usuarios.txt");
-            BufferedReader br = new BufferedReader(reader);
+            BufferedReader br = new BufferedReader(reader); 
 
             String linea;
             while ((linea = br.readLine()) != null)

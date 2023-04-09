@@ -1,4 +1,14 @@
 package Menus;
+import Clases.Usuarios;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -6,7 +16,9 @@ package Menus;
  */
 public class Login extends javax.swing.JFrame {
     /** Creates new form Login */
-
+    public static String Nombre;
+    public static int Nivel;
+    
     public Login() {
         initComponents();
     }
@@ -26,7 +38,7 @@ public class Login extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        pass = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         btnRegistrar = new javax.swing.JButton();
 
@@ -52,6 +64,11 @@ public class Login extends javax.swing.JFrame {
         txtUser.setForeground(new java.awt.Color(255, 255, 255));
         txtUser.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtUser.setBorder(null);
+        txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtUserKeyReleased(evt);
+            }
+        });
 
         jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
@@ -67,16 +84,26 @@ public class Login extends javax.swing.JFrame {
         jSeparator2.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator2.setForeground(new java.awt.Color(255, 255, 255));
 
-        jPasswordField1.setBackground(new java.awt.Color(112, 145, 255));
-        jPasswordField1.setForeground(new java.awt.Color(255, 255, 255));
-        jPasswordField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        jPasswordField1.setBorder(null);
+        pass.setBackground(new java.awt.Color(112, 145, 255));
+        pass.setForeground(new java.awt.Color(255, 255, 255));
+        pass.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pass.setBorder(null);
+        pass.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                passKeyReleased(evt);
+            }
+        });
 
         btnLogin.setBackground(new java.awt.Color(81, 84, 255));
         btnLogin.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
         btnLogin.setForeground(new java.awt.Color(255, 255, 255));
         btnLogin.setText("Iniciar sesión");
         btnLogin.setEnabled(false);
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
         btnRegistrar.setBackground(new java.awt.Color(81, 84, 255));
         btnRegistrar.setFont(new java.awt.Font("Lucida Sans", 1, 14)); // NOI18N
@@ -84,6 +111,11 @@ public class Login extends javax.swing.JFrame {
         btnRegistrar.setText("Registrarse");
         btnRegistrar.setBorder(null);
         btnRegistrar.setEnabled(false);
+        btnRegistrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegistrarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -101,7 +133,7 @@ public class Login extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel5)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(26, 26, 26)))
                             .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(76, 76, 76))
@@ -151,7 +183,7 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -176,6 +208,37 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void txtUserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyReleased
+        // TODO add your handling code here:
+        Entrar();
+    }//GEN-LAST:event_txtUserKeyReleased
+
+    private void passKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passKeyReleased
+        // TODO add your handling code here:
+        Entrar();
+    }//GEN-LAST:event_passKeyReleased
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
+            txtUser.setText("");
+            pass.setText("");
+            VentanaPrincipal obj1 = new VentanaPrincipal();
+            JOptionPane.showMessageDialog(null, "Bienvendo al Sistema "+Nombre);
+            obj1.setVisible(true);
+            this.dispose();
+            
+    }//GEN-LAST:event_btnLoginActionPerformed
+
+    private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
+        // TODO add your handling code here:
+            txtUser.setText("");
+            pass.setText("");
+            VentanaPrincipal obj1 = new VentanaPrincipal();
+            JOptionPane.showMessageDialog(null, "Bienvendo al Sistema "+Nombre);
+            obj1.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnRegistrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -230,10 +293,94 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JPasswordField pass;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 
+    public void Entrar() {
+        File arch = new File("Usuarios.txt");
+        if (!arch.exists())
+        {
+            try
+            {
+                arch.createNewFile();
+            } catch (IOException ex)
+            {
+                JOptionPane.showMessageDialog(null, "Error de archivo");
+            }
+        }
+
+        List<Usuarios> ListaUsuarios = obtenerListaUsuarios();
+
+        boolean usuarioEncontrado = false;
+        for (Usuarios usuario : ListaUsuarios)
+        {
+
+            if (txtUser.getText().equals(usuario.getLogin_Usuario()) && pass.getText().equals(usuario.getPass_Usuario()))
+            {
+                usuarioEncontrado = true;
+                if (usuario.getNivel_Acceso() == 1)
+                {
+                    Nombre = usuario.getLogin_Usuario();
+                    Nivel = usuario.getNivel_Acceso();
+                    btnLogin.setEnabled(true); //habilitar botón para usuarios normales
+                    btnRegistrar.setEnabled(false); //desactivar botón para administradores
+                    break; //terminar ciclo for
+                }
+
+                if (usuario.getNivel_Acceso() == 0)
+                {
+                    Nombre = usuario.getLogin_Usuario();
+                    Nivel = usuario.getNivel_Acceso();
+                    btnRegistrar.setEnabled(true); //habilitar botón para administradores
+                    btnLogin.setEnabled(false); //desactivar botón para usuarios normales
+                    break; //terminar ciclo for
+                }
+            }
+        }
+        if (!usuarioEncontrado)
+        {
+            btnRegistrar.setEnabled(false);
+            btnLogin.setEnabled(false);
+        }
+    }
+    
+    public static List<Usuarios> obtenerListaUsuarios() {
+        List<Usuarios> listaUsuarios = new ArrayList<>();
+        try
+        {
+            FileReader reader = new FileReader("Usuarios.txt");
+            BufferedReader br = new BufferedReader(reader); 
+
+            String linea;
+            while ((linea = br.readLine()) != null)
+            {
+                String[] datos = linea.split("; ");
+                Usuarios usuario = new Usuarios();
+                usuario.setLogin_Usuario(datos[0]);
+                usuario.setPass_Usuario(datos[1]);
+                usuario.setNivel_Acceso(Integer.parseInt(datos[2].trim()));
+                usuario.setNombre_Usuario(datos[3]);
+                usuario.setApllido_Usuario(datos[4]);
+                usuario.setCorreo_Usuario(datos[5]);
+                listaUsuarios.add(usuario);
+            }
+
+            br.close();
+            reader.close();
+        } catch (FileNotFoundException ex){
+            JOptionPane.showMessageDialog(null, "Archivo No Encontrado");
+            ex.printStackTrace();
+        } catch (IOException ex){
+            JOptionPane.showMessageDialog(null, "Error de Archvo");
+            ex.printStackTrace();
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Error");
+            ex.printStackTrace();
+        } 
+        return listaUsuarios;
+    }
 }
+
